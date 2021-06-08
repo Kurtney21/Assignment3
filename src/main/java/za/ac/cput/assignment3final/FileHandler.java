@@ -12,13 +12,16 @@ public class FileHandler {
     private ObjectInputStream input;
     private BufferedWriter soutput;
     private BufferedWriter coutput;
-    private final String topS   =  "======================= SUPPLIER ========================";
-    private final String topC   =  "======================= CUSTOMER ===========================";
-    private final String bottomC = "============================================================\n";
-    private final String bottomS = "=========================================================\n";
+    private Calculation calc;
     private final ArrayList<Supplier> supplierArrayList = new ArrayList();
     private final ArrayList<Customer> customerArrayList = new ArrayList();
-    private Calculation calc;
+    private final String topS   =  "======================= SUPPLIER ========================";
+    private final String topC   =  "================ CUSTOMER =================";
+    private final String bottomC = "===========================================\n";
+    private final String bottomS = "=========================================================\n";
+    
+    private final String textCanRent = "\nNumber of customers who can rent:    " ;
+    private final String textCannotRent ="\nNumber of customers who cannot rent: " ;
 
     public ArrayList<Supplier> getSupplierArrayList() {
         return supplierArrayList;
@@ -110,8 +113,8 @@ public class FileHandler {
                 calc.getAge().get(i).toString()
                 ));
             }
-            coutput.write("\nNumber of customers who can rent: "+calc.canRent(customerArrayList)+"\n");
-            coutput.write("Number of customers who cannot rent: "+calc.cannotRent(customerArrayList));
+            coutput.write(textCanRent+calc.canRent(customerArrayList));
+            coutput.write(textCannotRent+calc.cannotRent(customerArrayList));
         }
         catch(IOException e){
             e.getMessage();
