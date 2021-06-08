@@ -13,7 +13,7 @@ import java.time.format.DateTimeParseException;
 import java.util.*;
 
 
-public class  Calculation{
+public class  Calculation extends Customer{
     private int canRent;
     private int notRent;
     private int newAge;
@@ -44,16 +44,22 @@ public class  Calculation{
         });
     }
     
-    void canRent(ArrayList<Customer> rent){
+    public int canRent(ArrayList<Customer> rent){
         rent.forEach((each)->{
             if(each.getCanRent()){
                 canRent++;
-            }else{
+            }
+        });
+        return canRent;
+    }
+    
+    public int cannotRent(ArrayList<Customer> notrent){
+        notrent.forEach((n)->{
+            if(n.getCanRent()==false){
                 notRent++;
             }
         });
-        System.out.println("Number of customers who rent: "+canRent);
-        System.out.println("Number of customers who cannot rent:"+ notRent);
+        return notRent;
     }
     
     public int Age(String age){
@@ -67,6 +73,7 @@ public class  Calculation{
         }
         return newAge;
     }
+ 
 }
 
     

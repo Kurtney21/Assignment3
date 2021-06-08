@@ -16,9 +16,9 @@ public class FileHandler {
     private ObjectInputStream input;
     private BufferedWriter soutput;
     private BufferedWriter coutput;
-    private final String topS   = "========================Supplier============================";
-    private final String topC   = "========================Customer============================";
-    private final String bottom = "============================================================";
+    private final String topS   = "==============================Supplier==================================";
+    private final String topC   = "==============================Customer==================================";
+    private final String bottom = "========================================================================";
     private final ArrayList<Supplier> supplierArrayList = new ArrayList();
     private final ArrayList<Customer> customerArrayList = new ArrayList();
     private final ArrayList<Integer> age;
@@ -87,6 +87,28 @@ public class FileHandler {
     
     //Debuging + Trial and Error
     void printList(){
+        Calculation calc = new Calculation();
+        calc.sortCustomerListById(customerArrayList);
+        calc.sortSupplierListByName(supplierArrayList);
+        addAge();
+        calc.reformatDOB(customerArrayList);
+        //Printing List contents to console
+        System.out.println(topC);
+        System.out.println("ID\tName\t\tSurname\t\tDate of Birth\t Age");
+        System.out.println(bottom);
+
+        for(int i = 0; i<customerArrayList.size();i++){
+            System.out.println(String.format("%-5s\t%-10s\t%-10s\t%-15s\t%-5s",
+            customerArrayList.get(i).getStHolderId(),
+            customerArrayList.get(i).getFirstName(),
+            customerArrayList.get(i).getSurName(),
+            customerArrayList.get(i).getDateOfBirth(),
+            age.get(i).toString()));
+        }
+        
+        System.out.println("Number of customers who rent: "+calc.canRent(customerArrayList));
+        System.out.println("Number of customers who rent: "+calc.cannotRent(customerArrayList));
+        
         //Printing Supplier List to Console
         System.out.println(topS);
         System.out.println("ID\tName\t\t\tProd Type\tDescription");
@@ -113,35 +135,17 @@ public class FileHandler {
             System.out.println(e.getMessage());
         }
     }
-    /*
+
     void writeCustomerOutFile(){
-        Calculation calc = new Calculation();
-        calc.sortCustomerListById(customerArrayList);
-        calc.sortSupplierListByName(supplierArrayList);
-        addAge();
-        calc.reformatDOB(customerArrayList);
         
         try{
-        //Printing List contents to console
-        coutput.write(topS);
-        coutput.write("ID\tName\t\tSurname\t\tDate of Birth\t Age");
-        coutput.write(bottom);
         
-        for(int i = 0; i < customerArrayList.size();i++){
-                    String.format("%-5s\t%-10s\t%-15s\t%-15s\t%-5s",
-                    coutput.write(customerArrayList.get(i).getStHolderId().toString()+" "),
-                    customerArrayList.get(i).getFirstName(),
-                    customerArrayList.get(i).getSurName(),
-                    customerArrayList.get(i).getDateOfBirth(),
-                    age.get(i).toString());
-        }
-        calc.canRent(customerArrayList);
         }
         catch(Exception e){
             System.out.println();
         }
-    }*/
-    
+
+    }
     
     
 }
