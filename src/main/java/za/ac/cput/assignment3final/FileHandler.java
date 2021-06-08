@@ -98,11 +98,11 @@ public class FileHandler {
         try{
             //Printing List contents to console
             coutput.write(topC);
-            coutput.write("\nID\tName\t\tSurname\t\tDate of Birth\t Age\n");
+            coutput.write(String.format("\n%-5s%-10s%-10s%-15s%-10s\n","ID","Name","Surname","Date of Birth","Age"));
             coutput.write(bottomC);
 
             for(int i = 0; i<customerArrayList.size();i++){
-                coutput.write(String.format("%-5s\t%-10s\t%-10s\t%-15s\t %-10s\n",
+                coutput.write(String.format("%-5s%-10s%-10s%-15s%-10s\n",
                 customerArrayList.get(i).getStHolderId(),
                 customerArrayList.get(i).getFirstName(),
                 customerArrayList.get(i).getSurName(),
