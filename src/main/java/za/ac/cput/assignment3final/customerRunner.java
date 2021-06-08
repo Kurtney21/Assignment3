@@ -3,20 +3,25 @@
  * @Description Topic: Text Files, Serialization and Exception Handling 
  * @DueDate: 9 June 2021
  */
-
 package za.ac.cput.assignment3final;
-
-import java.util.*;
 
 public class customerRunner {
 
     
     public static void main(String[] args) {
+        //Creating Object file for Weading and Writting
         FileHandler file = new FileHandler();
+        
+        //File Handling: Read stakeHolder.ser file
         file.openFile();
         file.readFromFile();
-        System.out.println("Lists\n");
-        file.printList();
-    
+        
+        //File Handling: Write to customerOuFile.txt
+        file.openCustomerOutFile();
+        file.writeCustomerOutFile();
+        
+        //File Handling: Write to supplierOutFile.txt
+        file.openSupplierOutFile();
+        file.writeSupplierOutFile();
     }
 }

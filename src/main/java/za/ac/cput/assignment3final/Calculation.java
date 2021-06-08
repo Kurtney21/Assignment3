@@ -5,11 +5,9 @@
  */
 package za.ac.cput.assignment3final;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.format.DateTimeParseException;
+import java.text.*;
+import java.time.*;
+import java.time.format.*;
 import java.util.*;
 
 
@@ -17,6 +15,15 @@ public class  Calculation extends Customer{
     private int canRent;
     private int notRent;
     private int newAge;
+    private final ArrayList<Integer> age;
+    
+    public ArrayList<Integer> getAge() {
+        return age;
+    }
+
+    public Calculation() {
+        this.age = new ArrayList();
+    }
     
     //Sorting Customer List by id
     public void sortCustomerListById(ArrayList<Customer> array){
@@ -73,7 +80,12 @@ public class  Calculation extends Customer{
         }
         return newAge;
     }
- 
+    
+    void addAge(ArrayList<Customer> c){
+        for(int i = 0; i < c.size();i++ ){
+            age.add(new Calculation().Age(c.get(i).getDateOfBirth()));
+        }
+    }
 }
 
     

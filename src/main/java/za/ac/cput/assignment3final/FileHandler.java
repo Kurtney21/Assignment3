@@ -5,34 +5,20 @@
  */
 package za.ac.cput.assignment3final;
 
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
+import java.io.*;
+import java.util.*;
 
 public class FileHandler {
     private ObjectInputStream input;
     private BufferedWriter soutput;
     private BufferedWriter coutput;
-    private final String topS   = "==============================Supplier==================================";
-    private final String topC   = "==============================Customer==================================";
-    private final String bottom = "========================================================================";
+    private final String topS   =  "======================= SUPPLIER ========================";
+    private final String topC   =  "======================= CUSTOMER ===========================";
+    private final String bottomC = "============================================================\n";
+    private final String bottomS = "=========================================================\n";
     private final ArrayList<Supplier> supplierArrayList = new ArrayList();
     private final ArrayList<Customer> customerArrayList = new ArrayList();
-    private final ArrayList<Integer> age;
-
-    public FileHandler() {
-        this.age = new ArrayList();
-        
-    }
-    
-    void addAge(){
-        for(int i = 0; i < customerArrayList.size();i++ ){
-            age.add(new Calculation().Age(customerArrayList.get(i).getDateOfBirth()));
-        }
-    }
+    private Calculation calc;
 
     public ArrayList<Supplier> getSupplierArrayList() {
         return supplierArrayList;
@@ -85,45 +71,12 @@ public class FileHandler {
         }
     }
     
-    //Debuging + Trial and Error
-    void printList(){
-        Calculation calc = new Calculation();
-        calc.sortCustomerListById(customerArrayList);
-        calc.sortSupplierListByName(supplierArrayList);
-        addAge();
-        calc.reformatDOB(customerArrayList);
-        //Printing List contents to console
-        System.out.println(topC);
-        System.out.println("ID\tName\t\tSurname\t\tDate of Birth\t Age");
-        System.out.println(bottom);
-
-        for(int i = 0; i<customerArrayList.size();i++){
-            System.out.println(String.format("%-5s\t%-10s\t%-10s\t%-15s\t%-5s",
-            customerArrayList.get(i).getStHolderId(),
-            customerArrayList.get(i).getFirstName(),
-            customerArrayList.get(i).getSurName(),
-            customerArrayList.get(i).getDateOfBirth(),
-            age.get(i).toString()));
-        }
-        
-        System.out.println("Number of customers who rent: "+calc.canRent(customerArrayList));
-        System.out.println("Number of customers who rent: "+calc.cannotRent(customerArrayList));
-        
-        //Printing Supplier List to Console
-        System.out.println(topS);
-        System.out.println("ID\tName\t\t\tProd Type\tDescription");
-        System.out.println(bottom);
-        supplierArrayList.forEach((n) -> {
-            System.out.println(n);
-        });
-    }
-    
     void openCustomerOutFile(){
         try{
             coutput = new BufferedWriter(new FileWriter("customerOutFile.txt"));
         }
-        catch(Exception e){
-            System.out.println(e.getMessage());
+        catch(IOException e){
+            e.getMessage();
         }
     }
     
@@ -137,15 +90,76 @@ public class FileHandler {
     }
 
     void writeCustomerOutFile(){
+        calc = new Calculation();
+        calc.sortCustomerListById(customerArrayList);
+        calc.addAge(customerArrayList);
+        calc.reformatDOB(customerArrayList);
         
         try{
-        
-        }
-        catch(Exception e){
-            System.out.println();
-        }
+            //Printing List contents to console
+            coutput.write(topC);
+            coutput.write("\nID\tName\t\tSurname\t\tDate of Birth\t Age\n");
+            coutput.write(bottomC);
 
+            for(int i = 0; i<customerArrayList.size();i++){
+                coutput.write(String.format("%-5s\t%-10s\t%-10s\t%-15s\t %-10s\n",
+                customerArrayList.get(i).getStHolderId(),
+                customerArrayList.get(i).getFirstName(),
+                customerArrayList.get(i).getSurName(),
+                customerArrayList.get(i).getDateOfBirth(),
+                calc.getAge().get(i).toString()
+                ));
+            }
+            coutput.write("\nNumber of customers who can rent: "+calc.canRent(customerArrayList)+"\n");
+            coutput.write("Number of customers who cannot rent: "+calc.cannotRent(customerArrayList));
+        }
+        catch(IOException e){
+            e.getMessage();
+        }
+        finally{
+            closeCustomerOutFile();
+        }
     }
     
+    void openSupplierOutFile(){
+        try{
+            soutput = new BufferedWriter(new FileWriter("supplierOutFile.txt"));
+        }
+        catch(IOException e){
+            e.getMessage();
+        }
+    }
     
+    void closeSupplierOutFile(){
+        try{
+            soutput.close();
+        }
+        catch(IOException e){
+            e.getMessage();
+        }
+    }
+    
+    void writeSupplierOutFile(){
+        try{
+            calc.sortSupplierListByName(supplierArrayList);
+            soutput.write(topS);
+            soutput.write(String.format("\n%-5s%-20s%-15s%-20s\n","ID","Name","Prod Type","Description"));
+            soutput.write(bottomS);
+            
+            for(int i = 0; i < supplierArrayList.size();i++){
+                soutput.write(String.format("%-5s%-20s%-15s%-20s\n",
+                        supplierArrayList.get(i).getStHolderId(),
+                        supplierArrayList.get(i).getName(),
+                        supplierArrayList.get(i).getProductType(),
+                        supplierArrayList.get(i).getProductDescription()
+                ));
+            }
+        }
+        catch(IOException e){
+            e.getMessage();
+        }
+        finally{
+            closeSupplierOutFile();
+        }
+    }
 }
