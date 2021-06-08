@@ -12,15 +12,11 @@ public class customerRunner {
 
     
     public static void main(String[] args) {
-        ReadFile file = new ReadFile();
+        FileHandler file = new FileHandler();
         file.openFile();
         file.readFromFile();
-        
-        file.getCustomerArrayList().forEach((n) ->{
-            System.out.println(n);
-        });
-        file.getSupplierArrayList().forEach((n) ->{
-            System.out.println(n);
-        });
+        System.out.println("Lists\n");
+        file.printList();
+    
     }
 }

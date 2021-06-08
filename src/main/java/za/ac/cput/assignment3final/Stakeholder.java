@@ -8,10 +8,6 @@ package za.ac.cput.assignment3final;
 
 import java.io.Serializable;
 
-/**
- *
- * @author BURGERR
- */
 public class Stakeholder implements Serializable{
     private String stHolderId;
 
